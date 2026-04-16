@@ -67,6 +67,22 @@ pipeline {
                 }
             }
         }
+
+    stage("Trivy Scan"){
+        steps {
+            script {
+                sh ('docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image bapaksukareview/registration-app:latest --no-progress --scanner:
+                    }
+                 }
+               }
+    
+    stage ('Cleanup Artifacts') {
+        steps {
+            script {
+                sh "docker rmi ${IMAGE_NAME}:$(IMAGE_TAG}"
+                sh "docker rmi ${IMAGE_NAME}:latest"
+            }
+        }
     }
  }
 }
