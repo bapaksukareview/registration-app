@@ -71,7 +71,7 @@ pipeline {
     stage("Trivy Scan"){
         steps {
             script {
-                sh ('docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image bapaksukareview/registration-app:latest --no-progress --scanner:
+                sh ('docker run -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy image bapaksukareview/registration-app:latest --no-progress --scanner:''')
                     }
                  }
                }
