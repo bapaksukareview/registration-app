@@ -8,7 +8,7 @@ pipeline {
         APP_NAME = "registration-app"
         RELEASE = "1.0.0"
         DOCKER_USER = "bapaksukareview"
-        DOCKER_PASS = "github-actions"
+        DOCKER_PASS = "docker-hub"
         IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
         IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
     }
