@@ -3,8 +3,16 @@ pipeline {
     tools {
       jdk 'jdk17'
       maven 'maven3'
-  }
-  stages {
+    }
+    environment {
+        APP_NAME = "registration-app"
+        RELEASE = "1.0.0"
+        DOCKER_USER = "bapaksukareview"
+        DOCKER_PASS = "Cybersetiaone18!"
+        IMAGE_NAME = "${DOCKER_USER}" + "/" "${APP_NAME}"
+        IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
+    }
+    stages {
       stage("Cleanup Workspace"){
               steps {
               cleanWs()
@@ -46,7 +54,23 @@ pipeline {
                 waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token'
                 }
             }
-        }    
+        
+        } 
+        
+    stage("Build & Push Docker Image"){
+        steps {
+            script {
+                docker.withRegistry('',DOCKER_PASS){
+                    docker_image = docker.build "${IMAGE_NAME}"
+                }
+
+                docker.with Registry('',DOCKER_PASS){
+                    docker_image.push("${IMAGE_TAG}")
+                    docker_image.push('latest')
+                }
+            }
+        }
+    
+        }
     }
 }
-
